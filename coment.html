@@ -1,0 +1,71 @@
+<h1>đăng ký:</h1>
+<input type="text" name="tendangnhap" id="tdn" placeholder="tên đăng nhập ...">
+<input type="password" name="mk" id="mk" placeholder="mật khẩu ...">
+<input type="password" name="mk2" id="mk2" placeholder="nhập lại mật khẩu...">
+<div id="loi"></div>
+<button onclick="dangki()">đăng ký</button>
+<br>
+<h1>đăng nhập:</h1>
+<input type="text" name="tendangnhap" id="tdn1" placeholder="tên đăng nhập ...">
+<input type="password" name="mk" id="mk1" placeholder="mật khẩu ...">
+<button onclick="dangnhap()">đăng nhập</button>
+<script type="text/javascript">
+	function dangki(argument) {
+		var tdn = document.getElementById('tdn').value;
+		var mk = document.getElementById('mk').value;
+		var mk2 = document.getElementById('mk2').value;
+		var d = '<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'bạn chưa nhập thông tin đăng nhập'+'</div>'
+		var z = '<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'bạn đã nhập sai mật khẩu'+'</div>'
+		var e = '<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'tài khoản đã có trong hệ thống'+'</div>'
+		if (tdn=='' || mk=='') {
+			document.getElementById('loi').innerHTML=d;
+			setTimeout('xoa()', 3000);
+		}else{
+			if (mk2 != mk) {
+				document.getElementById('loi').innerHTML=z;
+				setTimeout('xoa()',3000);
+			}else{
+				var du = localStorage.getItem(tdn);
+				if (du == null) {
+					var nam={
+					    fullname:tdn,
+                        mk:mk,
+                        tien:1000000,
+                        tiencuoc:1,
+				    }
+				    var thongtin = JSON.stringify(nam);
+				    localStorage.setItem(tdn,thongtin)
+				}else{
+					document.getElementById('loi').innerHTML=e;
+					setTimeout('xoa()',3000)
+				}
+			}
+		}
+	}
+	function xoa(argument) {
+		document.getElementById('loi').innerHTML='';
+	}
+	function dangnhap(argument) {
+		var tdn1 = document.getElementById('tdn1').value;
+		var mk1 = document.getElementById('mk1').value;
+		var xui='<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'bạn chưa nhập thông tin đăng nhập'+'</div>'
+		var ui='<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'tài khoản không có trong hệ thống'+'</div>'
+		var uiii='<div style="padding:0 40px;height:20px;width:200px;border-radius:20px;color:white;background:#5900ff;">'+'bạn đã đăng nhập thành công'+'</div>'
+		if (tdn1==''||mk1=='') {
+			document.getElementById('loi').innerHTML=xui;
+			setTimeout('xoa()',3000);
+		}else{
+			var tdnn1=localStorage.getItem(tdn1);
+			const tdnnn1 = JSON.parse(tdnn1);
+			var deu = tdnnn1.fullname;
+			var deu1 = tdnnn1.mk;
+			if (tdn1 != deu||mk1 != deu1) {
+				document.getElementById('loi').innerHTML=ui;
+				setTimeout('xoa()',3000);
+			}else{
+                document.getElementById('loi').innerHTML=uiii;
+                setTimeout('xoa()',3000);
+			}
+		}
+	}
+</script>
